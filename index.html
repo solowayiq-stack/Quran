@@ -4,24 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>برنامه قرآن کریم</title>
-    <!-- فراخوانی فونت قرآنی و فونت فارسی Vazirmatn -->
+    <!-- فراخوانی فونت قرآنی و Vazirmatn -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Vazirmatn:wght@300;500;700&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --gold-color: #d4af37;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --glass-bg: rgba(15, 23, 42, 0.55);
+            --glass-border: rgba(212, 175, 55, 0.35);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Vazirmatn', sans-serif;
             color: #ffffff;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             min-height: 100vh;
             min-height: -webkit-fill-available;
-            background: radial-gradient(circle at center, #1e3c72 0%, #2a5298 50%, #0f172a 100%);
+            background: radial-gradient(circle at 50% 30%, #1e293b 0%, #0f172a 70%, #020617 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -29,39 +37,46 @@
             position: relative;
         }
 
-        /* افکت شیشه‌ای مشترک */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-            border-radius: 20px;
+        /* پس‌زمینه با پترن اسلیمی ملایم */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(rgba(212, 175, 55, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
         }
 
+        /* دکمه‌های شیشه‌ای عمومی */
         .glass-btn {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
             color: #ffffff;
             font-size: 1rem;
-            font-weight: bold;
-            padding: 12px 18px;
+            font-weight: 500;
+            padding: 12px 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             outline: none;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .glass-btn:hover, .glass-btn:active {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(212, 175, 55, 0.6); /* لمس طلایی هنگام کلیک */
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            background: rgba(212, 175, 55, 0.18);
+            border-color: var(--gold-color);
+            box-shadow: 0 0 20px var(--gold-glow);
+            transform: translateY(-2px);
+            color: #fff8e7;
         }
 
-        /* صفحات */
+        /* تنظیمات صفحات */
         .page {
             position: absolute;
             width: 100%;
@@ -72,26 +87,39 @@
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: scale(0.96);
             padding: 20px;
-            padding-bottom: calc(25px + env(safe-area-inset-bottom)); /* جلوگیری از تداخل با نوار پایین گوشی */
+            padding-bottom: calc(35px + env(safe-area-inset-bottom)); /* فاصله عالی از پایین گوشی */
         }
 
         .page.active {
             opacity: 1;
             pointer-events: auto;
+            transform: scale(1);
         }
 
         /* صفحه اصلی */
         #home-page {
             justify-content: center;
+            gap: 30px;
         }
 
-        #home-page h1 {
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        .main-title {
             text-align: center;
+        }
+
+        .main-title h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #f8fafc;
+            text-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
+            margin-bottom: 8px;
+        }
+
+        .main-title p {
+            color: #94a3b8;
+            font-size: 1rem;
         }
 
         /* دکمه بازگشت بالا سمت راست */
@@ -101,16 +129,17 @@
             right: 20px;
             font-size: 0.9rem;
             padding: 8px 18px;
-            z-index: 10;
+            z-index: 20;
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
-        /* کادر اسلیمی و مذهبی نمایش سوره */
-        .surah-display {
+        /* کادر اسلیمی تذهیب‌دار نمایش سوره */
+        .surah-card {
             width: 100%;
-            max-width: 500px;
-            margin-top: 60px;
+            max-width: 520px;
+            margin-top: 55px;
             margin-bottom: 15px;
-            padding: 25px 20px;
+            padding: 35px 25px;
             text-align: center;
             flex: 1;
             display: flex;
@@ -119,68 +148,100 @@
             align-items: center;
             overflow-y: auto;
             position: relative;
-            
-            /* حاشیه اسلیمی دو لایه و شیک */
-            border: 2px solid rgba(212, 175, 55, 0.4);
-            outline: 4px solid rgba(255, 255, 255, 0.05);
-            outline-offset: -8px;
-            box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.1), 0 10px 30px rgba(0,0,0,0.5);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.05);
         }
 
-        /* گل‌های اسلیمی در گوشه‌های کادر */
-        .surah-display::before, .surah-display::after {
-            content: "✦";
+        /* خط حاشیه داخلی دو لایه */
+        .surah-card::after {
+            content: "";
             position: absolute;
-            color: rgba(212, 175, 55, 0.7);
-            font-size: 1.2rem;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 16px;
+            pointer-events: none;
         }
 
-        .surah-display::before { top: 6px; right: 10px; }
-        .surah-display::after { bottom: 6px; left: 10px; }
+        /* نقش و نگار اسلیمی گوشه‌های کادر */
+        .corner-ornament {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            color: var(--gold-color);
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .corner-tl { top: 14px; left: 14px; }
+        .corner-tr { top: 14px; right: 14px; transform: scaleX(-1); }
+        .corner-bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+        .corner-br { bottom: 14px; right: 14px; transform: scale(-1); }
 
         .surah-title {
-            font-size: 1.6rem;
+            font-size: 1.7rem;
+            color: #fde68a;
             margin-bottom: 15px;
-            border-bottom: 1px dashed rgba(212, 175, 55, 0.4);
-            padding-bottom: 8px;
-            width: 80%;
-            color: #f1e5ac;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            padding-bottom: 10px;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .surah-title::after {
+            content: "❖ ❖ ❖";
+            display: block;
+            font-size: 0.7rem;
+            color: var(--gold-color);
+            margin-top: 6px;
+            letter-spacing: 4px;
+            opacity: 0.8;
         }
 
         /* متن قرآنی */
         .quran-text {
             font-family: 'Amiri Quran', serif;
-            font-size: 1.7rem;
-            line-height: 2.4;
+            font-size: 1.75rem;
+            line-height: 2.5;
             color: #ffffff;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-            word-spacing: 3px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+            word-spacing: 4px;
+            margin-top: 10px;
         }
 
-        /* نوار پایین دکمه‌ها */
+        /* نوار دکمه‌های پایین */
         .bottom-nav {
             width: 100%;
-            max-width: 500px;
+            max-width: 520px;
             display: flex;
             justify-content: space-around;
-            gap: 8px;
+            gap: 10px;
             padding: 12px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            margin-bottom: 10px; /* ایجاد فاصله ایمن از پایین */
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
         }
 
         .bottom-nav button {
             flex: 1;
             font-size: 0.95rem;
-            padding: 12px 6px;
+            padding: 12px 8px;
             white-space: nowrap;
         }
 
+        /* پاسخگویی در صفحه کوچک */
         @media (max-width: 480px) {
-            .quran-text { font-size: 1.4rem; line-height: 2.1; }
+            .quran-text { font-size: 1.45rem; line-height: 2.2; }
             .bottom-nav button { font-size: 0.85rem; padding: 10px 4px; }
-            .surah-title { font-size: 1.3rem; }
+            .surah-title { font-size: 1.4rem; }
+            .main-title h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -188,17 +249,30 @@
 
     <!-- صفحه اصلی (ورود) -->
     <div id="home-page" class="page active">
-        <h1>برنامه قرآن کریم</h1>
-        <button class="glass-btn" style="padding: 14px 40px; font-size: 1.2rem; border-color: rgba(212,175,55,0.5);" onclick="navigateToApp()">ورود به برنامه</button>
+        <div class="main-title">
+            <h1>قرآن کریم</h1>
+            <p>مجموعه سوره‌های مبارکه</p>
+        </div>
+        <button class="glass-btn" style="padding: 14px 45px; font-size: 1.15rem; border-color: var(--gold-color); color: #fde68a;" onclick="navigateToApp()">
+            ورود به برنامه
+        </button>
     </div>
 
     <!-- صفحه نمایش سوره و منو -->
     <div id="app-page" class="page">
         <!-- دکمه بازگشت بالا سمت راست -->
-        <button class="glass-btn back-btn" onclick="navigateToHome()">← بازگشت</button>
+        <button class="glass-btn back-btn" onclick="navigateToHome()">
+            <span>بازگشت</span> ←
+        </button>
 
-        <!-- محل نمایش سوره با کادر اسلیمی -->
-        <div class="surah-display glass-panel">
+        <!-- کادر اسلیمی سوره -->
+        <div class="surah-card">
+            <!-- گوشه‌های تذهیب مذهبی -->
+            <svg class="corner-ornament corner-tl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2h8M2 2v8M2 2l10 10M6 2v4M2 6h4"/></svg>
+            <svg class="corner-ornament corner-tr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2h8M2 2v8M2 2l10 10M6 2v4M2 6h4"/></svg>
+            <svg class="corner-ornament corner-bl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2h8M2 2v8M2 2l10 10M6 2v4M2 6h4"/></svg>
+            <svg class="corner-ornament corner-br" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2h8M2 2v8M2 2l10 10M6 2v4M2 6h4"/></svg>
+
             <h2 id="surah-title" class="surah-title">لطفاً یک سوره را انتخاب کنید</h2>
             <div id="surah-content" class="quran-text">
                 جهت مشاهده متن سوره، از دکمه‌های زیر استفاده نمایید.
@@ -206,7 +280,7 @@
         </div>
 
         <!-- دکمه‌های شیشه‌ای پایین صفحه -->
-        <div class="bottom-nav glass-panel">
+        <div class="bottom-nav">
             <button class="glass-btn" onclick="showSurah('kawthar')">سوره کوثر</button>
             <button class="glass-btn" onclick="showSurah('nas')">سوره ناس</button>
             <button class="glass-btn" onclick="showSurah('ikhlas')">سوره اخلاص</button>
@@ -216,13 +290,34 @@
     <script>
         const surahs = {
             kawthar: {
-                title: "سورة الْكَوْثَر",
+                title: "سُورَةُ الْكَوْثَرِ",
                 content: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ <br> إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ ﴿١﴾ فَصَلِّ لِرَبِّكَ وَانْحَرْ ﴿٢﴾ إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ ﴿٣﴾"
             },
             nas: {
-                title: "سورة النَّاس",
+                title: "سُورَةُ النَّاسِ",
                 content: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ <br> قُلْ أَعُوذُ بِرَبِّ النَّاسِ ﴿١﴾ مَلِكِ النَّاسِ ﴿٢﴾ إِلَٰهِ النَّاسِ ﴿٣﴾ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ﴿٤﴾ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ﴿٥﴾ مِنَ الْجِنَّةِ وَالنَّاسِ ﴿٦﴾"
             },
             ikhlas: {
-                title: "سورة الإِخْلَاص",
-                content: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ <br> قُلْ هُوَ اللَّهُ أَ
+                title: "سُورَةُ الإِخْلَاصِ",
+                content: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ <br> قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ ﴿٤﴾"
+            }
+        };
+
+        function navigateToApp() {
+            document.getElementById('home-page').classList.remove('active');
+            document.getElementById('app-page').classList.add('active');
+        }
+
+        function navigateToHome() {
+            document.getElementById('app-page').classList.remove('active');
+            document.getElementById('home-page').classList.add('active');
+        }
+
+        function showSurah(key) {
+            const surah = surahs[key];
+            document.getElementById('surah-title').innerText = surah.title;
+            document.getElementById('surah-content').innerHTML = surah.content;
+        }
+    </script>
+</body>
+</html>
